@@ -1,0 +1,57 @@
+-nombre app:
+android>app>src>main>AndroidManifest.xml>android:label
+
+
+-icono app:
+1. flutter pub add flutter_launcher_icons
+2. en pubspec.yaml:
+flutter_launcher_icons:
+  image_path: assets/expenseTrackerIcon.png
+  android: true
+  ios: true
+3. flutter pub get
+   dart run flutter_launcher_icons
+
+
+-app release: 
+flutter run --release
+
+
+-usar fotos de internet (Network images):
+navigate to android-> app-> src-> main-> AndroidManifest.xml and add this line outside of application scope.
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
+-Riverpod (usar variables y funciones desde cualquier lado):
+flutter pub add flutter_riverpod
+
+Hay que añadir ProviderScope() al main:
+void main() {
+  runApp(const ProviderScope(child: MainScreen()));
+}
+
+
+-Package para conectar a backend:
+flutter pub add http
+
+
+-Permisos para conectar dispositivo físico a backend:
+<uses-permission android:name="android.permission.INTERNET" />
+
+En AndroidManifest.xml:
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.yourappname">
+
+    <!-- Other manifest elements -->
+
+    <!-- Add the INTERNET permission -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Other manifest elements -->
+
+    <application
+        <!-- Application components -->
+    </application>
+
+</manifest>
