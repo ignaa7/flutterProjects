@@ -50,6 +50,8 @@ class _LoadingScreenState extends ConsumerState<LoadingScreen> {
     super.dispose();
   }
 
+  //leer cuantas preguntas hay en el backend (quitar el timer y que el CircularProgressIndicator sea real, que sea esperando la carga)
+
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> playersNames = ref.read(playersNamesProvider);
