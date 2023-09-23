@@ -9,7 +9,9 @@ import 'package:juego_preguntas/screens/end_screen.dart';
 import 'package:juego_preguntas/widgets/question_widget.dart';
 
 import '../providers/current_screen_provider.dart';
-// import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
+
+const urlStart = 'preguntas-backend-default-rtdb.firebaseio.com';
 
 class QuestionScreen extends ConsumerStatefulWidget {
   const QuestionScreen({super.key});
@@ -19,8 +21,8 @@ class QuestionScreen extends ConsumerStatefulWidget {
 }
 
 class _QuestionScreenState extends ConsumerState<QuestionScreen> {
-  // final questionsNumber = 126;
-  late List<dynamic> questions;
+  final questionsNumber = 126;
+  // late List<dynamic> questions;
   late Map<String, dynamic> question;
   final List<int> usedNumbers = [];
   final random = Random();
@@ -28,15 +30,15 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
   String currentPlayer = 'Jugador 1';
   late Map<String, dynamic> playersNames;
 
-  void _getQuestions() async {
-    final response = await rootBundle.loadString('assets/preguntas.json');
+  // void _getQuestions() async {
+  //   final response = await rootBundle.loadString('assets/preguntas.json');
 
-    setState(() {
-      questions = jsonDecode(response);
-      isLoaded = true;
-      _getNextQuestion();
-    });
-  }
+  //   setState(() {
+  //     questions = jsonDecode(response);
+  //     isLoaded = true;
+  //     _getNextQuestion();
+  //   });
+  // }
 
   void _changePlayer() {
     if (currentPlayer == 'Jugador 1') {
@@ -49,30 +51,45 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
   @override
   void initState() {
     super.initState();
-    _getQuestions();
+    // _getQuestions();
   }
 
-  void _getNextQuestion() {
+  void _getNextQuestion() async {
     int number;
+    bool isNewNumber = false;
 
     _checkVictory();
 
     do {
-      number = random.nextInt(questions.length);
-    } while (usedNumbers.contains(number));
+      number = random.nextInt(questionsNumber);
 
-    setState(() {
-      question = questions[number];
-      _changePlayer();
-    });
+      if (!usedNumbers.contains(number)) {
+        usedNumbers.add(number);
+        isNewNumber = true;
+      }
+    } while (!isNewNumber);
+
+    final url = Uri.https(urlStart, '$number.json');
+
+    final response = await http.get(url);
+
+    if (response.statusCode >= 200 &&
+        response.statusCode < 300 &&
+        context.mounted) {
+      setState(() {
+        question = json.decode(response.body);
+        _changePlayer();
+        isLoaded = true;
+      });
+    }
   }
 
   void _checkVictory() {
-    if (playersNames['Jugador 2']['score'] == 1) {
+    if (playersNames['Jugador 2']['score'] == 3) {
       ref
           .read(currentScreenProvider.notifier)
           .setCurrentScreen(EndScreen(playersNames['Jugador 2']['name']));
-    } else if (playersNames['Jugador 1']['score'] == 1) {
+    } else if (playersNames['Jugador 1']['score'] == 3) {
       ref
           .read(currentScreenProvider.notifier)
           .setCurrentScreen(EndScreen(playersNames['Jugador 1']['name']));
@@ -82,6 +99,10 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
   @override
   Widget build(BuildContext context) {
     playersNames = ref.watch(playersNamesProvider);
+
+    if (!isLoaded) {
+      _getNextQuestion();
+    }
 
     return Scaffold(
       appBar: AppBar(

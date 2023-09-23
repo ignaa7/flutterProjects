@@ -33,6 +33,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                   onPressed: () {},
                   child: const Text(
                     'MODO HISTORIA (Próximamente)',
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -47,6 +48,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                   },
                   child: const Text(
                     '1 VS 1',
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -59,6 +61,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                   },
                   child: const Text(
                     'SALIR',
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
