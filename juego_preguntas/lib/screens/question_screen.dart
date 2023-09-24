@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:juego_preguntas/providers/players_names_provider.dart';
 import 'package:juego_preguntas/screens/end_screen.dart';
@@ -14,31 +13,22 @@ import 'package:http/http.dart' as http;
 const urlStart = 'preguntas-backend-default-rtdb.firebaseio.com';
 
 class QuestionScreen extends ConsumerStatefulWidget {
-  const QuestionScreen({super.key});
+  final int questionsNumber;
+
+  const QuestionScreen(this.questionsNumber, {super.key});
 
   @override
   ConsumerState<QuestionScreen> createState() => _QuestionScreenState();
 }
 
 class _QuestionScreenState extends ConsumerState<QuestionScreen> {
-  final questionsNumber = 126;
-  // late List<dynamic> questions;
+  late int questionsNumber;
   late Map<String, dynamic> question;
   final List<int> usedNumbers = [];
   final random = Random();
   var isLoaded = false;
   String currentPlayer = 'Jugador 1';
   late Map<String, dynamic> playersNames;
-
-  // void _getQuestions() async {
-  //   final response = await rootBundle.loadString('assets/preguntas.json');
-
-  //   setState(() {
-  //     questions = jsonDecode(response);
-  //     isLoaded = true;
-  //     _getNextQuestion();
-  //   });
-  // }
 
   void _changePlayer() {
     if (currentPlayer == 'Jugador 1') {
@@ -51,7 +41,7 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
   @override
   void initState() {
     super.initState();
-    // _getQuestions();
+    questionsNumber = widget.questionsNumber;
   }
 
   void _getNextQuestion() async {
@@ -116,7 +106,7 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
                   getNextQuestion: _getNextQuestion,
                   currentPlayer: currentPlayer,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Text(
                   '${playersNames['Jugador 1']['name']} : ${playersNames['Jugador 1']['score']}',
                   style: Theme.of(context).textTheme.titleSmall,

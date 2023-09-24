@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:juego_preguntas/providers/current_screen_provider.dart';
 import 'package:juego_preguntas/providers/players_names_provider.dart';
+import 'package:juego_preguntas/providers/questions_provider.dart';
 import 'package:juego_preguntas/screens/question_screen.dart';
+
+import 'package:http/http.dart' as http;
 
 class LoadingScreen extends ConsumerStatefulWidget {
   const LoadingScreen({super.key});
@@ -17,24 +21,36 @@ class _LoadingScreenState extends ConsumerState<LoadingScreen> {
   String loadingText = 'Cargando';
   late Timer timer;
   final duration = const Duration(seconds: 1);
-  int cont = 0;
+  var questionsFetched = false;
+  late int questionsNumber;
 
-  void startTimer() {
+  void startTimer() async {
+    final url =
+        Uri.https('preguntas-backend-default-rtdb.firebaseio.com', '.json');
+
+    final response = await http.get(url);
+
+    if (response.statusCode >= 200 &&
+        response.statusCode < 300 &&
+        context.mounted) {
+      questionsNumber = json.decode(response.body).length;
+
+      questionsFetched = true;
+    }
+
     timer = Timer.periodic(duration, (timer) {
-      if (cont == 5) {
+      if (questionsFetched) {
         ref
             .read(currentScreenProvider.notifier)
-            .setCurrentScreen(const QuestionScreen());
-      } else {
-        setState(() {
-          cont++;
-          if (loadingText == 'Cargando...') {
-            loadingText = 'Cargando';
-          } else {
-            loadingText = '$loadingText.';
-          }
-        });
+            .setCurrentScreen(QuestionScreen(questionsNumber));
       }
+      setState(() {
+        if (loadingText == 'Cargando...') {
+          loadingText = 'Cargando';
+        } else {
+          loadingText = '$loadingText.';
+        }
+      });
     });
   }
 
@@ -49,8 +65,6 @@ class _LoadingScreenState extends ConsumerState<LoadingScreen> {
     timer.cancel();
     super.dispose();
   }
-
-  //leer cuantas preguntas hay en el backend (quitar el timer y que el CircularProgressIndicator sea real, que sea esperando la carga)
 
   @override
   Widget build(BuildContext context) {

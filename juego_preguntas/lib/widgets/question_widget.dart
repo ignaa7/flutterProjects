@@ -28,7 +28,7 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
   bool? answer3;
   bool? answer4;
   bool isAnswered = false;
-  late Timer timer;
+  // late Timer timer;
 
   @override
   void initState() {
@@ -50,9 +50,9 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
     answer4 = null;
     isAnswered = false;
 
-    if (timer.isActive) {
-      timer.cancel();
-    }
+    // if (timer.isActive) {
+    //   timer.cancel();
+    // }
   }
 
   bool _checkAnswer(String answer) {
@@ -79,37 +79,38 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
     return isCorrect;
   }
 
-  void _nextQuestion() {
-    Duration duration = const Duration(seconds: 2);
-    int cont = 0;
-    timer = Timer.periodic(duration, (timer) {
-      if (cont == 3) {
-        widget.getNextQuestion();
-      } else {
-        cont++;
-      }
-    });
-  }
+  // void _nextQuestion() {
+  //   Duration duration = const Duration(seconds: 2);
+  //   int cont = 0;
+  //   timer = Timer.periodic(duration, (timer) {
+  //     if (cont == 3) {
+  //       widget.getNextQuestion();
+  //     } else {
+  //       cont++;
+  //     }
+  //   });
+  // }
 
   @override
   void dispose() {
-    timer.cancel();
+    // timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isAnswered) _nextQuestion();
+    // if (isAnswered) _nextQuestion();
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
           children: [
             const SizedBox(height: 40),
             Text(
               widget.question['pregunta'],
               style: Theme.of(context).textTheme.titleSmall,
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 40),
             ElevatedButton(
@@ -130,6 +131,7 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
               child: Text(
                 answers[0],
                 style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 20),
@@ -151,6 +153,7 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
               child: Text(
                 answers[1],
                 style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 20),
@@ -172,6 +175,7 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
               child: Text(
                 answers[2],
                 style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 20),
@@ -193,8 +197,26 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
               child: Text(
                 answers[3],
                 style: Theme.of(context).textTheme.titleSmall,
+                textAlign: TextAlign.center,
               ),
             ),
+            const SizedBox(height: 30),
+            isAnswered
+                ? ElevatedButton(
+                    onPressed: () {
+                      widget.getNextQuestion();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 60, 188, 248),
+                    ),
+                    child: Text(
+                      'Continuar',
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontSize: 14,
+                          ),
+                    ),
+                  )
+                : const Center(),
           ],
         ),
       ),
