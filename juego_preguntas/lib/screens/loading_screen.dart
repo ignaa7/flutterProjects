@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:juego_preguntas/providers/current_screen_provider.dart';
 import 'package:juego_preguntas/providers/players_names_provider.dart';
-import 'package:juego_preguntas/providers/questions_provider.dart';
 import 'package:juego_preguntas/screens/question_screen.dart';
 
 import 'package:http/http.dart' as http;

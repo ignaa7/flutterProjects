@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_riverpod: ^2.3.6
   http: ^1.1.0
+  lottie: ^2.6.0
 
 dev_dependencies:
   flutter_test:
@@ -54,8 +55,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  assets:
-    - assets/preguntas.json
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

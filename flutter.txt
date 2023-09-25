@@ -39,7 +39,7 @@ flutter pub add http
 -Permisos para conectar dispositivo físico a backend:
 <uses-permission android:name="android.permission.INTERNET" />
 
-En AndroidManifest.xml:
+android-> app-> src-> main-> AndroidManifest.xml:
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.yourappname">
 
@@ -55,3 +55,7 @@ En AndroidManifest.xml:
     </application>
 
 </manifest>
+
+
+-Animaciones:
+flutter pub add lottie

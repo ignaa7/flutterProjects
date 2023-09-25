@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:juego_preguntas/providers/players_names_provider.dart';
@@ -28,7 +26,6 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
   bool? answer3;
   bool? answer4;
   bool isAnswered = false;
-  // late Timer timer;
 
   @override
   void initState() {
@@ -49,10 +46,6 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
     answer3 = null;
     answer4 = null;
     isAnswered = false;
-
-    // if (timer.isActive) {
-    //   timer.cancel();
-    // }
   }
 
   bool _checkAnswer(String answer) {
@@ -79,28 +72,13 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
     return isCorrect;
   }
 
-  // void _nextQuestion() {
-  //   Duration duration = const Duration(seconds: 2);
-  //   int cont = 0;
-  //   timer = Timer.periodic(duration, (timer) {
-  //     if (cont == 3) {
-  //       widget.getNextQuestion();
-  //     } else {
-  //       cont++;
-  //     }
-  //   });
-  // }
-
   @override
   void dispose() {
-    // timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // if (isAnswered) _nextQuestion();
-
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),

@@ -48,7 +48,9 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
     int number;
     bool isNewNumber = false;
 
-    _checkVictory();
+    if (_checkVictory()) {
+      return;
+    }
 
     do {
       number = random.nextInt(questionsNumber);
@@ -74,16 +76,19 @@ class _QuestionScreenState extends ConsumerState<QuestionScreen> {
     }
   }
 
-  void _checkVictory() {
+  bool _checkVictory() {
     if (playersNames['Jugador 2']['score'] == 3) {
       ref
           .read(currentScreenProvider.notifier)
           .setCurrentScreen(EndScreen(playersNames['Jugador 2']['name']));
+      return true;
     } else if (playersNames['Jugador 1']['score'] == 3) {
       ref
           .read(currentScreenProvider.notifier)
           .setCurrentScreen(EndScreen(playersNames['Jugador 1']['name']));
+      return true;
     }
+    return false;
   }
 
   @override
