@@ -1,0 +1,19 @@
+flutter sdk (update PATH -> ...\flutter\bin)
+git (Use Git and optionals Unix tools from the comand prompt)
+Android Studio (flutter doctor --android-licenses) 
+	Custom:
+	Android SDK
+	latest Android SDK Platform
+	Performance (Hypervisor Driver)
+	Android Virtual Device
+Android Studio -> SDK Manager
+	latest SDK Platform
+	SDK Tools 
+		Android SDK Build Tools
+		Android SDK Command-line Tools
+		Android Emulator
+		Android Emulator Hypervisor Driver
+		Android SDK Platform Tools
+Android Studio -> Virtual Device
+	Verify Configuration -> Graphics -> Hardware
+virtualization BIOS (opciones avanzadas -> CPU -> SVM)
