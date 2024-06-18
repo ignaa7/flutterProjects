@@ -19,6 +19,15 @@ flutter_launcher_icons:
 -app release: 
 flutter run --release
 
+-flutter devices:
+list all connected devices
+
+-flutter emulators:
+list all connected emulators
+
+-flutter emulators --launch emulatorName:
+run emulator
+
 
 -usar fotos de internet (Network images):
 navigate to android-> app-> src-> main-> AndroidManifest.xml and add this line outside of application scope.
